@@ -53,7 +53,7 @@ app.post("/register_user", async (req, res) => {
           token: crypto.randomBytes(64).toString("hex"),
         }).save();
 
-        const message = `${process.env.BASE_URL}/user/verify/${newUser.id}/${token.token}`;
+        const message = `${process.env.BASE_URL}/user_verification/${newUser.id}/${token.token}`;
 
         await sendEmail(newUser.email, "Verify Email", message);
 
@@ -66,11 +66,15 @@ app.post("/register_user", async (req, res) => {
   }
 });
 
-app.get("/verify/:id/:token", async (req, res) => {
+app.get("/user_verification/:id/:token", async (req, res) => {
   try {
+
+    console.log("_verification_______________")
+
     const user = await User.findOne({ _id: req.params.id });
 
-    console.log(user,"________________ user")
+    console.log(user,"______________________ user")
+
     if (!user) return res.status(400).send("Invalid Link");
 
     const token = await Token.findOne({
@@ -78,18 +82,22 @@ app.get("/verify/:id/:token", async (req, res) => {
       token: req.params.token,
     });
 
+    console.log(token,"+++++++++++ token")
+
     if (!token) return res.status(400).send("Invalid Link");
 
-    await User.updateOne({
-      _id: user._id,
-      user_verification: true,
-    });
+    await User.findByIdAndUpdate(user._id, {user_verification : true })
 
+    
     await Token.findByIdAndRemove(token._id);
 
     res.status(200).send("email verification is success");
+ 
   } catch (error) {
+    console.log(error,"------------ error")
+ 
     res.status(400).send("email verification is failed");
+ 
   }
 });
 
@@ -122,11 +130,17 @@ app.post("/login_user", async (req, res) => {
             access_token: access_token,
 
             user_data: {
+
+
               first_name,
               last_name,
               email,
               user_verification,
+            
+            
             },
+
+
           });
         } else {
           res.status(401).json({ message: "Your password is incorrect" });
