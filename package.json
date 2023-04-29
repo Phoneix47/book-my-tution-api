@@ -15,7 +15,6 @@
     "cloudinary": "^1.31.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^7.0.3"
+    "jsonwebtoken": "^8.5.1"
   }
 }
