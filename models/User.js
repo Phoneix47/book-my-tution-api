@@ -29,6 +29,10 @@ const userSchema = mongoose.Schema(
     user_verification: {
       type: Boolean,
       required : true
+    },
+    profile_picture  : {
+      type : String,
+      required : false
     }
   },
 

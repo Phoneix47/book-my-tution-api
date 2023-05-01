@@ -7,10 +7,12 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
+const media_route = require('./routes/media_upload')
 const sendEmail = require("./utils/verfication_mail");
-const Token = require("./models/Token.js");
 
+const Token = require("./models/Token.js");
 const User = require("./models/User");
+
 
 require("dotenv").config();
 
@@ -18,6 +20,7 @@ const app = express();
 app.use(cors());
 
 app.use(bodyParser.json());
+app.use('/media', media_route)
 
 const port = 8080;
 
@@ -91,12 +94,8 @@ app.post("/resend_email", async (req, res) => {
           message : "successfully sent email"
         })
 
-
       }
     });
-
-
-
 
 
   } catch (error) {
@@ -139,7 +138,7 @@ app.post("/login_user", async (req, res) => {
     if (user) {
       bcrypt.compare(req.body.password, user.password, function (err, result) {
         if (result) {
-          const { first_name, last_name, email, user_verification } = user;
+          const { first_name, last_name, email, user_verification , user_type } = user;
 
           const access_token = jwt.sign(
             {
@@ -149,7 +148,7 @@ app.post("/login_user", async (req, res) => {
               },
             },
             "secret",
-            { expiresIn: "1h" }
+            { expiresIn: "24h" }
           );
 
           console.log(access_token);
@@ -164,6 +163,7 @@ app.post("/login_user", async (req, res) => {
               last_name,
               email,
               user_verification,
+              user_type
             },
           });
         } else {
