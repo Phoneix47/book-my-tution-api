@@ -18,7 +18,9 @@ media_route.use(bodyParser.json());
 media_route.post('/upload_profile_picture', async (req, res) => {
 
 
-await cloudinary.uploader.upload(req.body.file, {}).then((data) => {
+
+
+await cloudinary.uploader.upload(req.body.file).then((data) => {
     console.log(data)
 }).catch((err) => {
     console.log(err)

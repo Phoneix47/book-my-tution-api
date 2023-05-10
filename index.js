@@ -7,7 +7,8 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
-const media_route = require('./routes/media_upload')
+const media_route = require('./routes/media_upload');
+const tution_route = require('./routes/Tution_route')
 const sendEmail = require("./utils/verfication_mail");
 
 const Token = require("./models/Token.js");
@@ -21,6 +22,8 @@ app.use(cors());
 
 app.use(bodyParser.json());
 app.use('/media', media_route)
+app.use('/tution', tution_route)
+
 
 const port = 8080;
 
@@ -125,6 +128,7 @@ app.get("/user_verification/:id/:token", async (req, res) => {
     await Token.findByIdAndRemove(token._id);
 
     res.status(200).send("email verification is success");
+    
   } catch (error) {
     res.status(400).send("email verification is failed");
   }
@@ -144,7 +148,8 @@ app.post("/login_user", async (req, res) => {
             {
               data: {
                 user_id: user._id,
-                email: user.email,
+                email: email,
+                user_type
               },
             },
             "secret",
