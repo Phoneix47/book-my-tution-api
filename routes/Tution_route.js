@@ -49,7 +49,7 @@ tution_route.post('/add_tution' , auth_teacher, (req, res) => {
         
     }
 
-})
+} )
 
 module.exports = tution_route;
 
