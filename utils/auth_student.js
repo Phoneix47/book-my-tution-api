@@ -7,6 +7,7 @@ function auth_student(req, res, next) {
     user.data.user_type === "student";
     next();
   });
+  
 }
 
 module.exports = auth_student;
