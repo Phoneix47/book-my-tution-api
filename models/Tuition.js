@@ -29,10 +29,11 @@ const TuitionSchema = new Schema({
     type: Array,
     require: false,
   },
-  tution_booking_date: {
+ 
+  booking_date: {
     type: Array,
-    require: true,
-  },
+    require: true
+  }
 });
 
 const Tution = mongoose.model("Tution", TuitionSchema);

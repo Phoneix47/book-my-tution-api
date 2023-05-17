@@ -26,7 +26,7 @@ tution_route.get("/available_booking_date", auth_student, async (req, res) => {
 
     console.log(available_dates.tution_booking_date);
 
-    res.status(200).send(available_dates.tution_booking_date);
+    res.status(200).send(available_dates.booking_date);
   } catch (error) {
     res.status(500).send(error);
   }
@@ -36,17 +36,19 @@ tution_route.post("/book_tution", auth_student, async (req, res) => {
   try {
     let demo_tution = await Tution.findById(req.body.booking_tution_id);
 
-    await demo_tution.updateOne({
+     await demo_tution.updateOne({
       $push: {
-        tution_booking_date: req.body.booking_date,
+        booking_date: {
+          "userID": req.body.userID,
+          "date": req.body.date,
+        },
       },
     });
 
-    res.status(200).send(demo_tution);
+    res.status(200).send("Demo class is successfully Booked");
   } catch (error) {
     res.status(500).send(error);
 
-    console.log(error);
   }
 });
 
