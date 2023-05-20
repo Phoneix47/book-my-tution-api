@@ -173,7 +173,9 @@ app.post("/login_user", async (req, res) => {
               last_name,
               email,
               user_verification,
-              user_type
+              user_type,
+              
+profile_picture
             },
           });
         } else {
