@@ -146,7 +146,7 @@ app.post("/login_user", async (req, res) => {
     if (user) {
       bcrypt.compare(req.body.password, user.password, function (err, result) {
         if (result) {
-          const { first_name, last_name, email, user_verification , user_type, _id } = user;
+          const { first_name, last_name, email, user_verification , user_type, _id ,profile_picture } = user;
 
           const access_token = jwt.sign(
             {
@@ -173,9 +173,8 @@ app.post("/login_user", async (req, res) => {
               last_name,
               email,
               user_verification,
-              user_type,
-              
-profile_picture
+              user_type,             
+              profile_picture
             },
           });
         } else {
