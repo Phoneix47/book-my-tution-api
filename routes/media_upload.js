@@ -26,6 +26,9 @@ media_route.post(
         .then(async (result) => {
           var url = result.secure_url;
 
+          console.log(result.secure_url, " ___________________")
+
+        
            await User.findById(req.body.userID).updateOne({
             profile_picture: url,
           });
